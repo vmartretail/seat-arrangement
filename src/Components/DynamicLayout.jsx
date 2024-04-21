@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import Default from "./Default";
 import Modal from "./Modal";
 
-const DynamicLayout = ({ data, numRows, numCols }) => {
+const DynamicLayout = ({ data, numRows, numCols, setAllSeats }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState({});
 
@@ -52,7 +52,12 @@ const DynamicLayout = ({ data, numRows, numCols }) => {
     <div className="w-full flex justify-center items-center flex-1 my-2">
       {renderItems()}
 
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} data={selectedData} />
+      <Modal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        data={selectedData}
+        setAllSeats={setAllSeats}
+      />
     </div>
   );
 };
@@ -66,6 +71,7 @@ DynamicLayout.propTypes = {
   ).isRequired,
   numCols: PropTypes.number.isRequired,
   numRows: PropTypes.number.isRequired,
+  setAllSeats: PropTypes.func.isRequired,
 };
 
 export default DynamicLayout;

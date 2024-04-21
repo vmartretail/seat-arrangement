@@ -3,12 +3,8 @@ import DynamicLayout from "./Components/DynamicLayout";
 import SelectFloor from "./Components/SelectFloor";
 import HomeLayout from "./Layout/HomeLayout";
 import { ImSpinner } from "react-icons/im";
-import {
-  firstFloor,
-  groundFloor,
-  secondFloor,
-  underGround,
-} from "./utils/mock";
+import { db } from "./services/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,19 +13,10 @@ const App = () => {
     name: "Under Ground Floor",
     key: "UG",
   });
+  const [isError, setIsError] = useState("");
 
   const [allSeats, setAllSeats] = useState([]);
   const [floorDetails, setFloorDetails] = useState({});
-
-  // const mappedData = useMemo(
-  //   () => ({
-  //     UG: underGround,
-  //     GF: groundFloor,
-  //     FF: firstFloor,
-  //     SF: secondFloor,
-  //   }),
-  //   []
-  // );
 
   // Fetch data
   useEffect(() => {
@@ -37,24 +24,31 @@ const App = () => {
     async function fetchData() {
       try {
         setIsLoading(true);
-        let arr = [underGround, groundFloor, firstFloor, secondFloor];
+
+        let floorDetails = {};
+
+        // get from the firebase
+        const querySnapshot = await getDocs(collection(db, "floorDetails"));
+        querySnapshot.forEach((doc) => {
+          floorDetails[doc.id] = doc.data();
+        });
 
         let allRowData = [];
-        let floorDetails = {};
-        for (let i = 0; i < arr.length; i++) {
-          const { numCols, numRows, rowData } = arr[i];
 
-          if (arr[i]?.rowData) {
-            floorDetails[rowData[0]?.floor] = { numRows, numCols };
-            allRowData.push(...(rowData ?? []));
-          }
-        }
+        // get from the firebase
+        const queryRowSnapshot = await getDocs(collection(db, "rows"));
+        queryRowSnapshot.forEach((doc) => {
+          // floorDetails[doc.id] = doc.data();
+          allRowData.push(doc.data());
+        });
+
         setFloorDetails(floorDetails);
         setAllSeats(allRowData);
 
         setIsLoading(false);
       } catch (err) {
         console.log("err::", err);
+        setIsError(err?.message || "Something went wrong!!");
         setIsLoading(false);
       }
     }
@@ -100,6 +94,12 @@ const App = () => {
           <ImSpinner className="animate-spin text-4xl text-[#9c2a5b]" />
           Loading...
         </div>
+      ) : isError ? (
+        <div className="text-sm bg-red-100 px-4 py-2 rounded-sm relative">
+          <p className="text-red-900 w-[95%] font-semibold">
+            {isError || "Something went Wrong !!"}
+          </p>
+        </div>
       ) : (
         <DynamicLayout
           data={allSeats
@@ -107,6 +107,7 @@ const App = () => {
             .sort((a, b) => a?.seriesNo - b?.seriesNo)}
           numRows={floorDetails[selected["key"]]?.numRows}
           numCols={floorDetails[selected["key"]]?.numCols}
+          setAllSeats={setAllSeats}
         />
       )}
     </HomeLayout>
