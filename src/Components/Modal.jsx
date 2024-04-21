@@ -8,6 +8,8 @@ import { db } from "../services/firebase";
 
 const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
   const [isError, setIsError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const closeModal = useCallback(() => {
     setIsOpen(false);
   }, [setIsOpen]);
@@ -15,6 +17,7 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
   const onSubmit = useCallback(
     async (e) => {
       try {
+        setIsLoading(true);
         e.preventDefault();
 
         // Access the form element directly
@@ -54,11 +57,13 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
         );
 
         closeModal();
+        setIsLoading(false);
       } catch (err) {
         setIsError(
           err?.message ||
             "An error occurred while processing your request. Please try again later."
         );
+        setIsLoading(false);
         console.log("err::", err);
       }
     },
@@ -68,6 +73,7 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
   const onRemove = useCallback(
     async (e) => {
       try {
+        setIsLoading(true);
         e.preventDefault();
 
         await updateDoc(
@@ -88,10 +94,12 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
         );
 
         closeModal();
+        setIsLoading(false);
       } catch (err) {
         setIsError(
           err?.message || "Something went wrong on removing the employee."
         );
+        setIsLoading(false);
       }
     },
     [closeModal, data, setAllSeats]
@@ -167,6 +175,7 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        disabled={isLoading}
                       >
                         Add
                       </button>
@@ -174,6 +183,7 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
                         type="button"
                         className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         onClick={onRemove}
+                        disabled={isLoading}
                       >
                         Remove
                       </button>
