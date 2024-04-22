@@ -15,19 +15,30 @@ const Default = ({ label, data, onClick }) => {
       <button
         disabled={data?.disabled}
         className={`
-      min-w-4 min-h-4 bg-slat-50 w-full h-full p-2 ring-1 rounded-sm flex justify-center items-center text-xs disabled:bg-gray-200 disabled:text-white disabled:ring-[gray-200]
-      ${data?.type === "block" ? "ring-red-400" : "ring-[#2e9c5f]"}
+      min-w-4 min-h-4 bg-slat-50 w-full h-full p-2 rounded-sm flex justify-center items-center text-xs disabled:bg-gray-200 group relative
+      
       ${
-        data?.isSelected
-          ? "bg-[#2e9c5f] text-white"
-          : "text-[#2e9c5f] ring-red-400"
+        data?.type === "fixed"
+          ? "bg-slate-100 text-slate-950 "
+          : data?.type === "small"
+          ? "rounded-t-lg "
+          : "text-stone-50"
       }
+      ${data?.employeeName ? "bg-slate-400" : "bg-slate-200"}
       `}
         onClick={() => onClick(true, data)}
         title={data?.employeeName || ""}
       >
-        {data?.type === "fixed" && label}
-        {data?.type === "block" && data?.employeeName && data?.employeeName}
+        <p className="text-xs text-ellipsis overflow-hidden">
+          {data?.type === "fixed" && label}
+          {data?.type === "block" && data?.employeeName && data?.employeeName}
+        </p>
+
+        {data?.employeeName && (
+          <div className="absolute top-full bg-[#ffc092] shadow-md border-separate border-1 px-3 py-2 hidden group-hover:inline-block z-30 text-slate-950 text-nowrap rounded-md">
+            {data?.employeeName || "--"}
+          </div>
+        )}
       </button>
     </>
   );

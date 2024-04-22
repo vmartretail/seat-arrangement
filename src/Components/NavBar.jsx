@@ -2,7 +2,7 @@ import { IoIosPerson } from "react-icons/io";
 
 const NavBar = () => {
   return (
-    <div className="w-full py-4 px-2 bg-primary bg-[#9c2a5b]">
+    <div className="w-full py-4 px-2 bg-primary bg-[#2c3e50]">
       <div className="container flex justify-between items-center gap-2 m-auto px-2">
         <p className="text-white text-2xl">Seat Arrangement</p>
 

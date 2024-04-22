@@ -18,7 +18,7 @@ const DynamicLayout = ({ data, numRows, numCols, setAllSeats }) => {
         className="grid gap-1"
         style={{
           gridTemplateColumns: `${Array.from({ length: numCols })
-            .map(() => "auto")
+            .map(() => "30px")
             .join(" ")}`,
         }}
       >
@@ -49,7 +49,7 @@ const DynamicLayout = ({ data, numRows, numCols, setAllSeats }) => {
   }, [data, numCols, numRows, isOpen, setIsOpen, onClick]);
 
   return (
-    <div className="w-full flex justify-center items-center flex-1 my-2">
+    <div className="w-full flex justify-center items-center flex-1 my-2 ">
       {renderItems()}
 
       <Modal

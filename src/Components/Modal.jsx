@@ -136,7 +136,8 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Employee Detail
+                  Seat detail of{" "}
+                  {data?.seatId && <strong>{data?.seatId}</strong>}
                 </Dialog.Title>
                 <form className="mt-2" onSubmit={onSubmit}>
                   {isError && (

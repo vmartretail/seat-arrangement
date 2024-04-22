@@ -73,15 +73,11 @@ const App = () => {
             <div className="flex justify-start gap-3 items-center">
               <div className="flex justify-start gap-1 items-center">
                 Occupied:{" "}
-                <p className="min-w-6 min-h-6 bg-[#2e9c5f] rounded-md ring-1 ring-[#2e9c5f]">
-                  {" "}
-                </p>
+                <p className="min-w-6 min-h-6 bg-slate-400 rounded-md"> </p>
               </div>
               <div className="flex justify-start gap-1 items-center">
                 vacant:{" "}
-                <p className="min-w-6 min-h-6 rounded-md ring-1 ring-red-400">
-                  {" "}
-                </p>
+                <p className="min-w-6 min-h-6 rounded-md bg-slate-200"> </p>
               </div>
             </div>
           </div>
