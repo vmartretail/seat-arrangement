@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { PiArmchairBold } from "react-icons/pi";
 
 const Default = ({ label, data, onClick }) => {
   // Path
@@ -24,15 +25,18 @@ const Default = ({ label, data, onClick }) => {
           ? "rounded-t-lg "
           : "text-stone-50"
       }
-      ${data?.employeeName ? "bg-slate-400" : "bg-slate-200"}
+      ${data?.employeeName ? "bg-[#499557] text-gray-100" : "bg-slate-200 "}
       `}
         onClick={() => onClick(true, data)}
         title={data?.employeeName || ""}
       >
-        <p className="text-xs text-ellipsis overflow-hidden">
+        <p className="text-xs text-ellipsis overflow-hidden font-semibold text-nowrap ">
           {data?.type === "fixed" && label}
           {data?.type === "block" && data?.employeeName && data?.employeeName}
+          {["block", "small"].includes(data?.type) && data?.employeeName}
         </p>
+
+        {/* <PiArmchairBold /> */}
 
         {data?.employeeName && (
           <div className="absolute bottom-full bg-white shadow-lg border-separate border-1 px-5 py-4 hidden group-hover:inline-block z-30 text-slate-950 text-nowrap rounded-md text-md">
