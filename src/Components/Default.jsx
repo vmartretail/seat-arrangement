@@ -35,7 +35,7 @@ const Default = ({ label, data, onClick }) => {
         </p>
 
         {data?.employeeName && (
-          <div className="absolute top-full bg-[#ffc092] shadow-md border-separate border-1 px-3 py-2 hidden group-hover:inline-block z-30 text-slate-950 text-nowrap rounded-md">
+          <div className="absolute bottom-full bg-white shadow-lg border-separate border-1 px-5 py-4 hidden group-hover:inline-block z-30 text-slate-950 text-nowrap rounded-md text-md">
             {data?.employeeName || "--"}
           </div>
         )}
