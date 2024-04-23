@@ -41,6 +41,7 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
             ...data,
             isSelected: true,
             employeeName: formDataObject["userName"],
+            desc: formDataObject["desc"] || "",
           }
         );
 
@@ -51,6 +52,7 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
                   ...ele,
                   isSelected: true,
                   employeeName: formDataObject["userName"],
+                  desc: formDataObject["desc"] || "",
                 }
               : ele
           )
@@ -88,7 +90,7 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
         setAllSeats((prev) =>
           prev.map((ele) =>
             ele?.seatId === data?.seatId
-              ? { ...ele, isSelected: false, employeeName: "" }
+              ? { ...ele, isSelected: false, employeeName: "", desc: "" }
               : ele
           )
         );
@@ -168,6 +170,20 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
                         id="userName"
                         defaultValue={data?.employeeName || ""}
                         required
+                      />
+                    </div>
+
+                    <div className="w-full my-2">
+                      <label className="text-sm" htmlFor="desc">
+                        Employee Description
+                      </label>
+                      <textarea
+                        className="block mt-2 w-full rounded-md border-0 py-1.5 px-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6"
+                        name="desc"
+                        placeholder="Anything about employee..."
+                        id="desc"
+                        defaultValue={data?.desc || ""}
+                        rows={4}
                       />
                     </div>
                   </div>

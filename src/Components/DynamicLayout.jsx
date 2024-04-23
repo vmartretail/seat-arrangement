@@ -15,10 +15,10 @@ const DynamicLayout = ({ data, numRows, numCols, setAllSeats }) => {
   const renderItems = useCallback(() => {
     return (
       <div
-        className="grid gap-1"
+        className="grid gap-1 z-1 w-full max-w-full"
         style={{
           gridTemplateColumns: `${Array.from({ length: numCols })
-            .map(() => "30px")
+            .map(() => "1fr")
             .join(" ")}`,
         }}
       >
@@ -49,7 +49,7 @@ const DynamicLayout = ({ data, numRows, numCols, setAllSeats }) => {
   }, [data, numCols, numRows, isOpen, setIsOpen, onClick]);
 
   return (
-    <div className="w-full flex justify-center items-center flex-1 my-2 ">
+    <div className="flex justify-center items-center flex-1 my-2 container m-auto z-1 py-4 px-2">
       {renderItems()}
 
       <Modal

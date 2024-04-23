@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { PiArmchairBold } from "react-icons/pi";
 
 const Default = ({ label, data, onClick }) => {
   // Path

@@ -1,29 +1,67 @@
 import PropTypes from "prop-types";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useCallback, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
-const SelectFloor = ({ selected, setSelected, floors }) => {
+const SearchInput = ({ setSelected, allSeats, floors }) => {
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const filteredPeople =
-    query === ""
-      ? floors
-      : floors.filter((person) =>
-          person.name
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
-        );
+  const handleChange = useCallback(
+    async (e) => {
+      try {
+        if (e?.floor) {
+          let found = floors.find((ele) => ele?.key === e?.floor);
+
+          if (found) {
+            setSelected(found);
+          }
+        }
+      } catch (error) {
+        console.log("err:::", error);
+      }
+    },
+    [floors, setSelected]
+  );
+
+  // get all results
+  useEffect(() => {
+    if (allSeats.length === 0) return;
+
+    setIsLoading(true);
+    const docs = allSeats.filter((ele) => ele?.employeeName || ele?.desc);
+
+    setFilteredResults(docs);
+    setResults(docs);
+    setIsLoading(false);
+  }, [allSeats]);
+
+  // filtered results
+  useEffect(() => {
+    if (query === "") {
+      setFilteredResults(results);
+    } else {
+      const filteredResults = results.filter(
+        (result) =>
+          result.employeeName.toLowerCase().includes(query.toLowerCase()) ||
+          result.desc.toLowerCase().includes(query.toLowerCase())
+      );
+
+      setFilteredResults(filteredResults);
+    }
+  }, [query, results]);
 
   return (
-    <Combobox value={selected} onChange={setSelected}>
+    <Combobox onChange={handleChange}>
       <div className="relative mt-1">
         <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
           <Combobox.Input
             className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 focus:outline-none"
-            displayValue={(person) => person.name}
+            displayValue={(person) => person.employeeName}
             onChange={(event) => setQuery(event.target.value)}
+            placeholder={"Search..."}
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon
@@ -40,20 +78,24 @@ const SelectFloor = ({ selected, setSelected, floors }) => {
           afterLeave={() => setQuery("")}
         >
           <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-            {filteredPeople.length === 0 && query !== "" ? (
+            {isLoading ? (
+              <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
+                Loading...
+              </div>
+            ) : filteredResults.length === 0 && query !== "" ? (
               <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                 Nothing found.
               </div>
             ) : (
-              filteredPeople.map((person) => (
+              filteredResults.map((result) => (
                 <Combobox.Option
-                  key={person.id}
+                  key={result.seatId}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? "bg-teal-600 text-white" : "text-gray-900"
                     }`
                   }
-                  value={person}
+                  value={result}
                 >
                   {({ selected, active }) => (
                     <>
@@ -62,7 +104,7 @@ const SelectFloor = ({ selected, setSelected, floors }) => {
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {person.name}
+                        {result?.employeeName} ({result?.floor})
                       </span>
                       {selected ? (
                         <span
@@ -85,10 +127,10 @@ const SelectFloor = ({ selected, setSelected, floors }) => {
   );
 };
 
-SelectFloor.propTypes = {
-  selected: PropTypes.object,
+SearchInput.propTypes = {
   setSelected: PropTypes.func.isRequired,
+  allSeats: PropTypes.array.isRequired,
   floors: PropTypes.array.isRequired,
 };
 
-export default SelectFloor;
+export default SearchInput;
