@@ -75,9 +75,6 @@ const Login = () => {
           alert(JSON.stringify(userCred))
           const userEmail = userCred.user.email;
               
-                  if (!userEmail || !(userEmail.endsWith('@vmartretail.com') || userEmail.endsWith('@vmartretail.co.in') || userEmail.endsWith('@vmart.co.in'))) {
-                        throw new Error('You are not allowed to sign in with this email address.');
-                            }
           navigate("/");
         }
       } catch (err) {
