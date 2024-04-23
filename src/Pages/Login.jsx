@@ -72,6 +72,7 @@ const Login = () => {
         const userCred = await signInWithPopup(auth, googleProvider);
 
         if (userCred) {
+          alert(JSON.stringify(userCred))
           const userEmail = userCred.user.email;
               
                   if (!userEmail || !(userEmail.endsWith('@vmartretail.com') || userEmail.endsWith('@vmartretail.co.in') || userEmail.endsWith('@vmart.co.in'))) {
