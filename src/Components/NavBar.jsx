@@ -10,8 +10,6 @@ const NavBar = () => {
   useEffect(() => {
     const currentUser = auth.currentUser;
 
-    console.log("currentUser::", currentUser);
-
     setUsers(currentUser);
   }, [navigate]);
 

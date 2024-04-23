@@ -31,8 +31,20 @@ const Login = () => {
         e?.preventDefault();
         setIsLoading(true);
 
-        if (!email || !(email.endsWith('@vmartretail.com') || email.endsWith('@vmartretail.co.in') || email.endsWith('@vmart.co.in'))) {
-            throw new Error('You are not allowed to sign in with this email address.');
+        if (!email || !password)
+          throw new Error("Please provide the email & password!");
+
+        if (
+          !email ||
+          !(
+            email.endsWith("@vmartretail.com") ||
+            email.endsWith("@vmartretail.co.in") ||
+            email.endsWith("@vmart.co.in")
+          )
+        ) {
+          throw new Error(
+            "You are not allowed to sign in with this email address."
+          );
         }
 
         if (index === 0) {
@@ -72,9 +84,21 @@ const Login = () => {
         const userCred = await signInWithPopup(auth, googleProvider);
 
         if (userCred) {
-          alert(JSON.stringify(userCred))
           const userEmail = userCred.user.email;
-              
+
+          if (
+            !userEmail ||
+            !(
+              userEmail.endsWith("@vmartretail.com") ||
+              userEmail.endsWith("@vmartretail.co.in") ||
+              userEmail.endsWith("@vmart.co.in")
+            )
+          ) {
+            throw new Error(
+              "You are not allowed to sign in with this email address."
+            );
+          }
+
           navigate("/");
         }
       } catch (err) {
@@ -92,7 +116,12 @@ const Login = () => {
   return (
     <section className="p-4 flex justify-normal items-center min-h-svh bg-[#fafafa]">
       <div className="min-w-[300px] m-auto bg-white shadow-md py-4 px-10 rounded w-1/2 max-w-[500px]">
-        <h1 className="text-2xl text-center mb-2 underline underline-offset-3">
+        <h1 className="text-2xl text-center underline underline-offset-3 flex justify-center items-center gap-4 mb-10">
+          <img
+            className="w-10"
+            src={"https://www.vmart.co.in/wp-content/uploads/2022/07/logo.png"}
+            alt="logo"
+          />
           Seating Arrangement
         </h1>
 
@@ -157,7 +186,7 @@ const Login = () => {
             />
           </div>
 
-          <div className=" divide-y divide-y-reverse flex flex-col gap-4 ">
+          <div className="flex flex-col gap-4 ">
             <button
               type="submit"
               disabled={isLoading}
@@ -166,7 +195,12 @@ const Login = () => {
               Continue
             </button>
 
-            <hr className="" />
+            <div className="relative w-full my-2">
+              <hr />
+              <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-1 text-sm">
+                OR
+              </span>
+            </div>
 
             <button
               type="button"
