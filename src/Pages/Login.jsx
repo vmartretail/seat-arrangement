@@ -31,6 +31,10 @@ const Login = () => {
         e?.preventDefault();
         setIsLoading(true);
 
+        if (!email || !(email.endsWith('@vmartretail.com') || email.endsWith('@vmartretail.co.in') || email.endsWith('@vmart.co.in'))) {
+            throw new Error('You are not allowed to sign in with this email address.');
+        }
+
         if (index === 0) {
           // Login
           const res = await signInWithEmailAndPassword(auth, email, password);
@@ -68,6 +72,11 @@ const Login = () => {
         const userCred = await signInWithPopup(auth, googleProvider);
 
         if (userCred) {
+          const userEmail = userCred.user.email;
+              
+                  if (!userEmail || !(userEmail.endsWith('@vmartretail.com') || userEmail.endsWith('@vmartretail.co.in') || userEmail.endsWith('@vmart.co.in'))) {
+                        throw new Error('You are not allowed to sign in with this email address.');
+                            }
           navigate("/");
         }
       } catch (err) {

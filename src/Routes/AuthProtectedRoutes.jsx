@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { auth } from "../services/firebase";
 
 const AuthProtectedRoutes = () => {
-  const [isLogIn, setIsLogIn] = useState(true);
+  const [isLogIn, setIsLogIn] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
