@@ -19,6 +19,7 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selected, setSelected] = useState(floors[0]);
   const [isError, setIsError] = useState("");
+  const [searchedSeat, setSearchedSeat] = useState();
 
   const [allSeats, setAllSeats] = useState([]);
   const [floorDetails, setFloorDetails] = useState({});
@@ -84,6 +85,7 @@ const HomePage = () => {
                 setSelected={setSelected}
                 allSeats={allSeats}
                 floors={floors}
+                setSearchedSeat={setSearchedSeat}
               />
               <div className="flex justify-start gap-1 items-center">
                 Occupied:{" "}
@@ -126,6 +128,7 @@ const HomePage = () => {
             numRows={floorDetails[selected["key"]]?.numRows}
             numCols={floorDetails[selected["key"]]?.numCols}
             setAllSeats={setAllSeats}
+            searchedSeat={searchedSeat}
           />
         )}
       </div>

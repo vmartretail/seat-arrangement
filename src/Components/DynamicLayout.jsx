@@ -3,7 +3,13 @@ import { useCallback, useState } from "react";
 import Default from "./Default";
 import Modal from "./Modal";
 
-const DynamicLayout = ({ data, numRows, numCols, setAllSeats }) => {
+const DynamicLayout = ({
+  data,
+  numRows,
+  numCols,
+  setAllSeats,
+  searchedSeat,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState({});
 
@@ -41,12 +47,13 @@ const DynamicLayout = ({ data, numRows, numCols, setAllSeats }) => {
               setIsOpen={setIsOpen}
               isOpen={isOpen}
               onClick={onClick}
+              isSearched={searchedSeat === row?.seriesNo}
             />
           </div>
         ))}
       </div>
     );
-  }, [data, numCols, numRows, isOpen, setIsOpen, onClick]);
+  }, [data, numCols, numRows, isOpen, setIsOpen, onClick, searchedSeat]);
 
   return (
     <div className="flex justify-center items-center flex-1 my-2 container m-auto z-1 py-4 px-2">
@@ -72,6 +79,7 @@ DynamicLayout.propTypes = {
   numCols: PropTypes.number.isRequired,
   numRows: PropTypes.number.isRequired,
   setAllSeats: PropTypes.func.isRequired,
+  searchedSeat: PropTypes.numb,
 };
 
 export default DynamicLayout;

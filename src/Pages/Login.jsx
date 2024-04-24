@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import {
   createUserWithEmailAndPassword,
@@ -25,6 +25,16 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const allowedEmails = useMemo(
+    () => [
+      "shubham.bhardwaj@vmartretail.com",
+      "rohitsingh@vmartretail.com",
+      "reception@vmart.co.in",
+      "ranjeet.singh@vmart.co.in",
+    ],
+    []
+  );
+
   const handleSubmit = useCallback(
     async (e) => {
       try {
@@ -34,16 +44,11 @@ const Login = () => {
         if (!email || !password)
           throw new Error("Please provide the email & password!");
 
-        if (
-          !email ||
-          !(
-            email.endsWith("@vmartretail.com") ||
-            email.endsWith("@vmartretail.co.in") ||
-            email.endsWith("@vmart.co.in")
-          )
-        ) {
+        if (!allowedEmails.includes(email)) {
           throw new Error(
-            "You are not allowed to sign in with this email address."
+            `You are not allowed to ${
+              index === 0 ? "Sign In" : "Sign UP"
+            } with this email address.`
           );
         }
 
@@ -73,7 +78,7 @@ const Login = () => {
         setIsLoading(false);
       }
     },
-    [email, password, index, navigate]
+    [email, password, index, navigate, allowedEmails]
   );
 
   const continueWithGoogle = useCallback(
@@ -86,14 +91,7 @@ const Login = () => {
         if (userCred) {
           const userEmail = userCred.user.email;
 
-          if (
-            !userEmail ||
-            !(
-              userEmail.endsWith("@vmartretail.com") ||
-              userEmail.endsWith("@vmartretail.co.in") ||
-              userEmail.endsWith("@vmart.co.in")
-            )
-          ) {
+          if (!userEmail || !allowedEmails.includes(userEmail)) {
             throw new Error(
               "You are not allowed to sign in with this email address."
             );
@@ -110,13 +108,13 @@ const Login = () => {
         setIsLoading(false);
       }
     },
-    [navigate]
+    [navigate, allowedEmails]
   );
 
   return (
     <section className="p-4 flex justify-normal items-center min-h-svh bg-[#fafafa]">
       <div className="min-w-[300px] m-auto bg-white shadow-md py-4 px-10 rounded w-1/2 max-w-[500px]">
-        <h1 className="text-2xl text-center underline underline-offset-3 flex justify-center items-center gap-4 mb-10">
+        <h1 className="text-2xl text-center flex justify-center items-center gap-4 mb-10 font-semibold">
           <img
             className="w-10"
             src={"https://www.vmart.co.in/wp-content/uploads/2022/07/logo.png"}
@@ -142,7 +140,7 @@ const Login = () => {
             }}
           >
             <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-              {["Login", "Sing UP"].map((ele) => (
+              {["Sign In", "Sign Up"].map((ele) => (
                 <Tab
                   key={ele}
                   className={({ selected }) =>

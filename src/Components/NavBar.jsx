@@ -24,7 +24,7 @@ const NavBar = () => {
   return (
     <div className="w-full py-4 px-2 bg-primary bg-[#2c3e50]">
       <div className="container flex justify-between items-center gap-2 m-auto px-2">
-        <div className="flex justify-start items-center gap-2">
+        <div className="flex justify-start items-center gap-4">
           <img
             className="w-10"
             src={"https://www.vmart.co.in/wp-content/uploads/2022/07/logo.png"}

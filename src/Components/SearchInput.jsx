@@ -3,7 +3,7 @@ import { Fragment, useState, useCallback, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
-const SearchInput = ({ setSelected, allSeats, floors }) => {
+const SearchInput = ({ setSelected, allSeats, floors, setSearchedSeat }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
@@ -16,6 +16,7 @@ const SearchInput = ({ setSelected, allSeats, floors }) => {
           let found = floors.find((ele) => ele?.key === e?.floor);
 
           if (found) {
+            setSearchedSeat(e?.seriesNo);
             setSelected(found);
           }
         }
@@ -23,7 +24,7 @@ const SearchInput = ({ setSelected, allSeats, floors }) => {
         console.log("err:::", error);
       }
     },
-    [floors, setSelected]
+    [floors, setSelected, setSearchedSeat]
   );
 
   // get all results
@@ -132,6 +133,7 @@ SearchInput.propTypes = {
   setSelected: PropTypes.func.isRequired,
   allSeats: PropTypes.array.isRequired,
   floors: PropTypes.array.isRequired,
+  setSearchedSeat: PropTypes.func.isRequired,
 };
 
 export default SearchInput;
