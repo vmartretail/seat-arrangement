@@ -4,18 +4,18 @@ import { auth } from "../services/firebase";
 import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
-  const [user, setUsers] = useState();
+  const [user, setUser] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
     const currentUser = auth.currentUser;
 
-    setUsers(currentUser);
+    setUser(currentUser);
   }, [navigate]);
 
   const handleLogOut = useCallback(async () => {
     try {
-      auth.signOut();
+      await auth.signOut();
     } catch (err) {
       console.log("err::", err);
     }
@@ -35,11 +35,17 @@ const NavBar = () => {
 
         <div className="flex gap-4 justify-between items-center">
           <button
-            className="text-md px-4 py-2 bg-red-100 text-red-400 rounded"
+            className="text-md px-4 py-2 text-red-400 rounded"
             onClick={handleLogOut}
           >
             Logout
           </button>
+
+          {user?.displayName && (
+            <h3 className="text-white text-semibold text-md">
+              {user?.displayName}
+            </h3>
+          )}
 
           {user?.photoURL ? (
             <img

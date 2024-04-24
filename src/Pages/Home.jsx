@@ -6,6 +6,7 @@ import HomeLayout from "../Layout/HomeLayout";
 import SelectFloor from "../Components/SelectFloor";
 import DynamicLayout from "../Components/DynamicLayout";
 import SearchInput from "../Components/SearchInput";
+import errorImg from "../assets/error.png";
 
 const floors = [
   { id: 1, name: "Under Ground Floor", key: "UG" },
@@ -99,14 +100,21 @@ const HomePage = () => {
 
       {/* Dynamic layout */}
       <div className="p-4 z-1">
-        {isLoading ? (
+        {isLoading && (
           <div className="flex flex-1 justify-center items-center gap-2 text-md">
             <ImSpinner className="animate-spin text-4xl text-[#9c2a5b]" />
             Loading...
           </div>
-        ) : isError ? (
-          <div className="text-sm bg-red-100 px-4 py-2 rounded-sm relative">
-            <p className="text-red-900 w-[95%] font-semibold">
+        )}
+
+        {!isLoading && isError ? (
+          <div className="px-4 py-3 rounded-sm relative container m-auto h-full">
+            <img
+              src={errorImg}
+              alt="error-img"
+              className="max-w-[600px] m-auto"
+            />
+            <p className="text-red-500 w-[95%] font-semibold m-auto text-center px-2 py-4 rounded">
               {isError || "Something went Wrong !!"}
             </p>
           </div>

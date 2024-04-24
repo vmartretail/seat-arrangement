@@ -121,7 +121,7 @@ const Login = () => {
             className="w-10"
             src={"https://www.vmart.co.in/wp-content/uploads/2022/07/logo.png"}
             alt="logo"
-          />
+          />{" "}
           Seating Arrangement
         </h1>
 
