@@ -56,7 +56,7 @@ const DynamicLayout = ({
   }, [data, numCols, numRows, isOpen, setIsOpen, onClick, searchedSeat]);
 
   return (
-    <div className="flex justify-center items-center flex-1 my-2 container m-auto z-1 py-4 px-2">
+    <div className="flex justify-center items-center flex-1 my-2 container m-auto z-1 py-4 px-2 overflow-auto">
       {renderItems()}
 
       <Modal
@@ -72,14 +72,29 @@ const DynamicLayout = ({
 DynamicLayout.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      colSpan: PropTypes.number,
-      rowSpan: PropTypes.number,
+      colSpan: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.oneOf([null, undefined]),
+      ]),
+      rowSpan: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.oneOf([null, undefined]),
+      ]),
     })
   ).isRequired,
-  numCols: PropTypes.number.isRequired,
-  numRows: PropTypes.number.isRequired,
+  numCols: PropTypes.oneOfType([
+    PropTypes.number.isRequired,
+    PropTypes.oneOf([null, undefined]),
+  ]),
+  numRows: PropTypes.oneOfType([
+    PropTypes.number.isRequired,
+    PropTypes.oneOf([null, undefined]),
+  ]),
   setAllSeats: PropTypes.func.isRequired,
-  searchedSeat: PropTypes.numb,
+  searchedSeat: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf([null, undefined]),
+  ]),
 };
 
 export default DynamicLayout;

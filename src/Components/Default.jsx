@@ -31,7 +31,6 @@ const Default = ({ label, data, onClick, isSearched }) => {
     >
       <p className="text-xs text-ellipsis overflow-hidden font-semibold text-nowrap ">
         {data?.type === "fixed" && label}
-        {data?.type === "block" && data?.employeeName && data?.employeeName}
         {["block", "small"].includes(data?.type) && data?.employeeName}
       </p>
 
