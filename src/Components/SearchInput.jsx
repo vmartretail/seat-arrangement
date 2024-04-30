@@ -44,10 +44,10 @@ const SearchInput = ({ setSelected, allSeats, floors, setSearchedSeat }) => {
     if (query === "") {
       setFilteredResults(results);
     } else {
-      const filteredResults = results.filter(
+      const filteredResults = results?.filter(
         (result) =>
-          result.employeeName.toLowerCase().includes(query.toLowerCase()) ||
-          result.desc.toLowerCase().includes(query.toLowerCase())
+          result.employeeName?.toLowerCase()?.includes(query?.toLowerCase()) ||
+          result.desc?.toLowerCase()?.includes(query?.toLowerCase())
       );
 
       setFilteredResults(filteredResults);
