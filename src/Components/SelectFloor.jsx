@@ -1,20 +1,25 @@
 import PropTypes from "prop-types";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useMemo } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+
+// #c59809
 
 const SelectFloor = ({ selected, setSelected, floors }) => {
   const [query, setQuery] = useState("");
 
-  const filteredPeople =
-    query === ""
-      ? floors
-      : floors.filter((person) =>
-          person.name
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
-        );
+  const filteredFloors = useMemo(
+    () =>
+      query === ""
+        ? floors
+        : floors.filter((person) =>
+            person.name
+              .toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query.toLowerCase().replace(/\s+/g, ""))
+          ),
+    [floors, query]
+  );
 
   return (
     <Combobox value={selected} onChange={setSelected}>
@@ -40,20 +45,20 @@ const SelectFloor = ({ selected, setSelected, floors }) => {
           afterLeave={() => setQuery("")}
         >
           <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-            {filteredPeople.length === 0 && query !== "" ? (
+            {filteredFloors.length === 0 && query !== "" ? (
               <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                 Nothing found.
               </div>
             ) : (
-              filteredPeople.map((person) => (
+              filteredFloors.map((floor) => (
                 <Combobox.Option
-                  key={person.id}
+                  key={floor.id}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? "bg-teal-600 text-white" : "text-gray-900"
                     }`
                   }
-                  value={person}
+                  value={floor}
                 >
                   {({ selected, active }) => (
                     <>
@@ -62,7 +67,7 @@ const SelectFloor = ({ selected, setSelected, floors }) => {
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {person.name}
+                        {floor.name}
                       </span>
                       {selected ? (
                         <span
