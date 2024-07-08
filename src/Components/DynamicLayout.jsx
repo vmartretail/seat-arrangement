@@ -14,6 +14,7 @@ const DynamicLayout = ({
   const [selectedData, setSelectedData] = useState({});
 
   const onClick = useCallback((action, data) => {
+    console.log("data:::", data, action);
     setSelectedData(data);
     setIsOpen(action);
   }, []);
@@ -40,6 +41,7 @@ const DynamicLayout = ({
                 row?.rowSpan === Infinity ? numRows : row?.rowSpan ?? 1
               }`,
             }}
+            data-seriesNo={row?.seriesNo || "NA"}
           >
             <Default
               label={row?.label || `${row?.seatId}` || ""}
