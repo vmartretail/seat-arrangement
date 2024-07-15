@@ -35,15 +35,16 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
         if (String(formDataObject["userName"] || "")?.trim() === "")
           throw new Error("Please Fill the employee name.");
 
-        await updateDoc(
-          doc(db, "rows", `${data["floor"]}_${data["seriesNo"]}`),
-          {
-            ...data,
-            isSelected: true,
-            employeeName: formDataObject["userName"],
-            desc: formDataObject["desc"] || "",
-          }
-        );
+        const docId = `${
+          data["docId"] || `${data["floor"]}_${data["seriesNo"]}`
+        }`;
+
+        await updateDoc(doc(db, "rows", docId), {
+          ...data,
+          isSelected: true,
+          employeeName: formDataObject["userName"],
+          desc: formDataObject["desc"] || "",
+        });
 
         setAllSeats((prev) =>
           prev.map((ele) =>
@@ -78,14 +79,15 @@ const Modal = ({ isOpen, setIsOpen, data, setAllSeats }) => {
         setIsLoading(true);
         e.preventDefault();
 
-        await updateDoc(
-          doc(db, "rows", `${data["floor"]}_${data["seriesNo"]}`),
-          {
-            ...data,
-            isSelected: false,
-            employeeName: null,
-          }
-        );
+        const docId = `${
+          data["docId"] || `${data["floor"]}_${data["seriesNo"]}`
+        }`;
+
+        await updateDoc(doc(db, "rows", docId), {
+          ...data,
+          isSelected: false,
+          employeeName: null,
+        });
 
         setAllSeats((prev) =>
           prev.map((ele) =>

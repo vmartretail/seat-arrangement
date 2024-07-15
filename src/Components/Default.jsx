@@ -32,7 +32,6 @@ const Default = ({ label, data, onClick, isSearched }) => {
       ${isSearched ? "bg-lime-500" : ""}
       `}
       onClick={() => {
-        console.log("data:::", data);
         onClick(true, data);
       }}
       title={data?.employeeName || ""}

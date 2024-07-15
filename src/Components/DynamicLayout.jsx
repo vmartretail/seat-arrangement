@@ -14,7 +14,6 @@ const DynamicLayout = ({
   const [selectedData, setSelectedData] = useState({});
 
   const onClick = useCallback((action, data) => {
-    console.log("data:::", data, action);
     setSelectedData(data);
     setIsOpen(action);
   }, []);
