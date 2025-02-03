@@ -36,7 +36,11 @@ const Default = ({ label, data, onClick, isSearched }) => {
       }}
       title={data?.employeeName || ""}
     >
-      <p className="text-xs text-ellipsis overflow-hidden font-semibold text-nowrap ">
+      <p
+        className={`text-xs text-ellipsis overflow-hidden font-semibold text-nowrap ${
+          data?.type === "fixed" ? "text-[#499557]" : ""
+        } `}
+      >
         {data?.type === "fixed" && label}
         {["block", "small"].includes(data?.type) && data?.employeeName}
       </p>

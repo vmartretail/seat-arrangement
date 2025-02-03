@@ -31,6 +31,8 @@ const Login = () => {
       "rohitsingh@vmartretail.com",
       "reception@vmart.co.in",
       "ranjeet.singh@vmart.co.in",
+      "richa.taneja@vmart.co.in",
+      "anjali@vmart.co.in",
     ],
     []
   );

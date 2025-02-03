@@ -40,7 +40,7 @@ const DynamicLayout = ({
                 row?.rowSpan === Infinity ? numRows : row?.rowSpan ?? 1
               }`,
             }}
-            data-seriesNo={row?.seriesNo || "NA"}
+            data-seriesno={row?.seriesNo || "NA"}
           >
             <Default
               label={row?.label || `${row?.seatId}` || ""}
